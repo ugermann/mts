@@ -7,6 +7,15 @@ void TranslationWorker::init_() {
   graph_ = New<ExpressionGraph>(true); // always optimize
   graph_->setDevice(device_);
   graph_->getBackend()->setClip(options_->get<float>("clip-gemm"));
+  if (device_.type == DeviceType::cpu) {
+    graph_->getBackend()->setOptimized(options_->get<bool>("optimize"));
+    graph_->getBackend()->setOptimized8(options_->get<bool>("optimize8"));
+    graph_->getBackend()->setShifted(options_->get<bool>("intgemm-shifted"));
+    graph_->getBackend()->setShiftedAll(options_->get<bool>("intgemm-shifted-all"));
+    graph_->getBackend()->setDumpQuantMult(options_->get<bool>("dump-quantmult"));
+    graph_->getBackend()->setPrecomputedAlpha(options_->get<bool>("use-precomputed-alphas"));
+    graph_->getBackend()->setLegacyBatchedGemm(options_->get<bool>("use-legacy-batching"));
+  }
   graph_->reserveWorkspaceMB(options_->get<size_t>("workspace"));
   scorers_ = createScorers(options_);
   for (auto s: scorers_) {
