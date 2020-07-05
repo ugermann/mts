@@ -6,7 +6,7 @@ namespace server {
 void TranslationWorker::init_() {
   graph_ = New<ExpressionGraph>(true); // always optimize
   auto prec = options_->get<std::vector<std::string>>("precision", {"float32"});
-  graph->setDefaultElementType(typeFromString(prec[0]));
+  graph_->setDefaultElementType(typeFromString(prec[0]));
   graph_->setDevice(device_);
   graph_->getBackend()->configureDevice(options_);
   graph_->reserveWorkspaceMB(options_->get<size_t>("workspace"));
