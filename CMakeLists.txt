@@ -26,17 +26,18 @@ option(UPDATE_SUBMODULES "Check for changes in submodules" ON)
 option(USE_CCACHE "Use ccache compiler cache (https://ccache.dev)" ON)
 option(USE_CUDNN "Use CUDNN library" OFF)
 option(USE_DOXYGEN "Build documentation with Doxygen" OFF)
-option(USE_FBGEMM "Use FBGEMM" OFF)
+option(USE_FBGEMM "Use FBGEMM" ON)
 option(USE_MKL "Compile with MKL support" ON)
 option(USE_MPI "Use MPI library" OFF)
-option(USE_NCCL "Use NCCL library" ON)
+option(USE_NCCL "Use NCCL library" OFF)
 option(USE_SENTENCEPIECE "Download and compile SentencePiece" ON)
 option(USE_STATIC_LIBS "Link statically against non-system libs" ON)
 
 # set default install path to ${HOME}/marian
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX
-    "${HOME}/marian" CACHE PATH "default install path" FORCE )
+    "$ENV{HOME}/marian" CACHE PATH "default install path" FORCE )
+  message(STATUS "CMAKE_INSTALL_PREFIX set to ${CMAKE_INSTALL_PREFIX}")
 endif()
 
 include(UpdateSubmodules)
@@ -49,6 +50,10 @@ message(STATUS "Project version: ${PROJECT_VERSION_STRING_FULL}")
 
 # add subdirectories for build but not install
 add_subdirectory(3rd_party EXCLUDE_FROM_ALL)
+
+# Install prefix files for sentence splitting
+install(DIRECTORY 3rd_party/ssplit-cpp/nonbreaking_prefixes
+  DESTINATION lib/ssplit)
 
 include_directories(${INCLUDE_DIRECTORIES})
 list(APPEND BOOST_COMPONENTS system)
