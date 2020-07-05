@@ -63,3 +63,6 @@ if (COMPILE_WEBSOCKET_SERVER)
   target_link_libraries(websocket-server marian-service marian ${MARIAN_CUDA_LIB} ${EXT_LIBS} ssplit pcrecpp.a pcre.a)
   set(EXECUTABLES ${EXECUTABLES} websocket-server)
 endif(COMPILE_WEBSOCKET_SERVER)
+
+install(TARGETS rest-server RUNTIME DESTINATION bin)
+install(DIRECTORY rest/ui DESTINATION lib)

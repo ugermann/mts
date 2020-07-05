@@ -27,4 +27,5 @@ get_directory_property(CMAKE_CXX_FLAGS DIRECTORY marian DEFINITION CMAKE_CXX_FLA
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} PARENT_SCOPE)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
 
-   
+# Install prefix files for sentence splitting
+install(DIRECTORY ssplit-cpp/nonbreaking_prefixes DESTINATION lib/ssplit)

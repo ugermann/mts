@@ -33,6 +33,12 @@ option(USE_NCCL "Use NCCL library" ON)
 option(USE_SENTENCEPIECE "Download and compile SentencePiece" ON)
 option(USE_STATIC_LIBS "Link statically against non-system libs" ON)
 
+# set default install path to ${HOME}/marian
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX
+    "${HOME}/marian" CACHE PATH "default install path" FORCE )
+endif()
+
 include(UpdateSubmodules)
 
 # Project versioning
@@ -41,8 +47,9 @@ include(GetVersionFromFile)
 message(STATUS "Project name: ${PROJECT_NAME}")
 message(STATUS "Project version: ${PROJECT_VERSION_STRING_FULL}")
 
+# add subdirectories for build but not install
+add_subdirectory(3rd_party EXCLUDE_FROM_ALL)
 
-add_subdirectory(3rd_party)
 include_directories(${INCLUDE_DIRECTORIES})
 list(APPEND BOOST_COMPONENTS system)
 set(Boost_USE_STATIC_LIBS USE_STATIC_LIBS)
@@ -69,4 +76,4 @@ if(SHOW_INCLUDE_DIRECTORIES)
    foreach(dir ${dirs})
      message(STATUS "dir='${dir}'")
    endforeach()
-endif(SHOW_INCLUDE_DIRECTORIES)  
+endif(SHOW_INCLUDE_DIRECTORIES)
