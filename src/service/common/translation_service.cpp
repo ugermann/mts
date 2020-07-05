@@ -41,6 +41,7 @@ TranslationService::TranslationService(Ptr<Options> options)
     LOG(warn, "Missing list of protected prefixes for sentence splitting. "
         "Set with --ssplit-prefix-file.");
   }
+  qualityEstimator_.reset(new qe::QualityEstimator(options));
   chooseDevice_(options);
 }
 
@@ -48,6 +49,10 @@ TranslationService::~TranslationService() {
   stop();
 }
 
+const qe::QualityEstimator&
+TranslationService::QE() const {
+  return *qualityEstimator_;
+}
 
 // Callback from worker for each finished job
 void TranslationService::callback_(Ptr<const History> h) {

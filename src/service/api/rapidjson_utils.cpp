@@ -72,8 +72,10 @@ Value hyp2json(const marian::Result& nbestlist_item,
   ret.AddMember("sentenceScore",sent_score,alloc);
   ret.AddMember("translation",Value(translation.c_str(),alloc),alloc);
 
+
   if (opts.withQualityEstimate) {
-    ret.AddMember("sentenceQualityScore",marian::qe::sentence_score2qe_score(sent_score),alloc);
+    auto QE = service.QE();
+    ret.AddMember("sentenceQualityScore", QE.mapSentenceScore(sent_score), alloc);
   }
 
   if (opts.withTokenization) {

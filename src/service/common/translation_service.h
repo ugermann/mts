@@ -22,6 +22,7 @@
 #include "translation_options.h"
 #include "translator/beam_search.h"
 #include "translator/history.h"
+#include "service/quality_estimation/qe.h"
 #ifdef __CUDA_ARCH__
 #include <cuda.h>
 #endif
@@ -41,6 +42,7 @@ class TranslationService {
   std::unordered_map<uint64_t, JobEntry> scheduled_jobs_;
 
   Ptr<Options> options_; // options set at start of service
+  Ptr<qe::QualityEstimator> qualityEstimator_; // Quality estimation module
   TranslationOptions dflt_topts_; // can be set by client
 
   std::vector<Ptr<Vocab const>> vocabs_;
@@ -100,6 +102,9 @@ public:
   Ptr<PlainTextTranslation>
   translate(std::string const& input,
             ssplitmode const smode = ssplitmode::wrapped_text);
+
+  const qe::QualityEstimator&
+  QE() const;
 
 };
 

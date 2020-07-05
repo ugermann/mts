@@ -164,13 +164,16 @@ int main(int argc, char* argv[])
                        "Maximum number of worker threads to deploy when using CPU.",
                        std::thread::hardware_concurrency());
   cp.addOption<std::string>("--server-root","Server Options",
-                            "server's document root directory","./rest");
+                            "server's document root directory",
+                            "${HOME}/marian/lib/ui/");
   cp.addOption<std::string>("--ssplit-prefix-file","Server Options",
                             "File with nonbreaking prefixes for sentence splitting.");
   cp.addOption<std::string>("--source-language","Server Options",
                             "source language of translation service");
   cp.addOption<std::string>("--target-language","Server Options",
                             "target language of translation service");
+
+  marian::qe::QualityEstimator::addOptions(cp);
 
   auto options = cp.parseOptions(argc, argv, true);
   auto service = New<tservice_t>(options);
