@@ -8,7 +8,7 @@ If you need https, go through a proxy and put the Marian REST server behind a fi
 
 Currently, the server can serve only a single configuration (model or ensemble of models).
 
-The REST API is described [here](https://github.com/ugermann/mts/wiki/BergamotAPI/wiki/BergamotAPI).
+The REST API is described [here](../../mts/wiki/BergamotAPI/wiki/BergamotAPI).
 
 ## Compilation
 ### Local
