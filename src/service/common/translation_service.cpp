@@ -174,7 +174,7 @@ string2splitmode(const std::string& m, bool throwOnError/*=false*/){
     return splitmode::one_sentence_per_line;
   if (m == "paragraph" || m == "Paragraph")
     return splitmode::one_paragraph_per_line;
-  if (m != "wrapped_text" || m != "WrappedText" || m != "wrappedText") {
+  if (m != "wrapped_text" && m != "WrappedText" && m != "wrappedText") {
     LOG(warn,"Ignoring unknown text input format specification: {}.", m);
   }
   return splitmode::wrapped_text;
