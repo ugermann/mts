@@ -48,8 +48,14 @@ include(GetVersionFromFile)
 message(STATUS "Project name: ${PROJECT_NAME}")
 message(STATUS "Project version: ${PROJECT_VERSION_STRING_FULL}")
 
-# add subdirectories for build but not install
-add_subdirectory(3rd_party EXCLUDE_FROM_ALL)
+add_subdirectory(3rd_party)
+# There's a bug in the sentencepiece cmake file. The easiest hack to
+# fix this is to create a symlink.
+if (NOT MSVC)
+  ADD_CUSTOM_TARGET(link_sentencepiece_pc ALL COMMAND ${CMAKE_COMMAND} -E
+    create_symlink 3rd_party/marian/src/3rd_party/sentencepiece/sentencepiece.pc
+    sentencepiece.pc)
+endif(NOT MSVC)
 
 # Install prefix files for sentence splitting
 install(DIRECTORY 3rd_party/ssplit-cpp/nonbreaking_prefixes
