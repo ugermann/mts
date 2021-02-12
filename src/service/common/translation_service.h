@@ -77,7 +77,7 @@ public:
     auto devices = Config::getDevices(options_);
     for (auto d: devices) {
       // callback() is not static, so we must wrap it in a lambda:
-      auto cb = [=](Ptr<History const> h) { this->callback_(h); };
+      auto cb = [this](Ptr<History const> h) { this->callback_(h); };
       auto w = New<TranslationWorker>(d, vocabs_, slgen_, jq_, cb, options_);
       w->template start<Search>();
       workers_.push_back(w);
@@ -89,7 +89,7 @@ public:
        const std::string& input,
        const TranslationOptions* topts=NULL,
        const size_t priority=0, // currently has no effect, yet to be implemented
-       std::function<void (Ptr<Job> j)> callback =[=](Ptr<Job> j){return;});
+       std::function<void (Ptr<Job> j)> callback =[](Ptr<Job> j){return;});
 
 
   void stop();
