@@ -84,20 +84,32 @@ void TranslationService::callback_(Ptr<const History> h) {
 // --cpu-threads is set explicitly.
 void TranslationService::chooseDevice_(Ptr<Options> options){
 #ifdef __CUDA_ARCH__
-  if (options->get<int>("cpu_threads",0) > 0)
-    return; // nothing to worry about, user wants to use CPU anyway
-  int ngpus;
-  cudaError_t err = cudaGetDeviceCount(&ngpus);
-  if (err != cudaSuccess){
-    size_t nproc = std::thread::hardware_concurrency();
-    size_t num_workers = options->get<size_t>("max_workers",nproc);
-    LOG(warn, "NO GPU available, using CPU instead. "
-        "Setting --cpu-threads to {}", num_workers);
-    options->set("cpu_threads",num_workers);
+  if (options->get<int>("cpu_threads",0) == 0) {
+    // User wants to run service on GPU ...
+
+    // ... is at least one available?
+    int ngpus;
+    cudaError_t err = cudaGetDeviceCount(&ngpus);
+    if (err != cudaSuccess){ // No
+      // => adjust number of CPU threads
+      size_t nproc = std::thread::hardware_concurrency();
+      size_t num_workers = options->get<size_t>("max_workers", nproc);
+      LOG(warn, "NO GPU available, using CPU instead. "
+          "Setting --cpu-threads to {}", num_workers);
+      options->set("cpu_threads", num_workers);
+    }
   }
-  if (options->get<int>("cpu_threads",0)){
-    // use mini-batch size 1 if running on CPU
-    options->set<int>("mini_batch",1);
+
+  // Let cpu-mini-batch overrides mini-batch if given
+  if ((int n = options->get<int>("cpu_mini_batch",0))) {
+    LOG(debug, "Setting mini batch size to {} sentences.", n);
+    options->set<int>("mini_batch", n);
+  }
+
+  // Let cpu-mini-batch-words overrides mini-batch-words if given
+  if ((int n = options->get<int>("cpu_mini_batch_words",0))) {
+    LOG(debug, "Setting mini batch size to {} words.", n);
+    options->set<int>("mini_batch_words", n);
   }
 #endif
 }

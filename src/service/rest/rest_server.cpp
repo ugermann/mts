@@ -159,10 +159,16 @@ int main(int argc, char* argv[])
   cp.addOption<int>("--port,-p","Server Options", "server port",18080);
   cp.addOption<int>("--queue-timeout","Server Options",
                     "max wait time (in ms) for new data before an underfull "
-                    "batch is launched",100);
+                    "batch is launched", 100);
   cp.addOption<size_t>("--max-workers","Server Options",
                        "Maximum number of worker threads to deploy when using CPU.",
                        std::thread::hardware_concurrency());
+  cp.addOption<size_t>("--cpu-mini-batch","Server Options",
+                       "Value for mini-batch if running on CPU.", 0);
+
+  cp.addOption<size_t>("--cpu-mini-batch-words","Server Options",
+                       "Value for mini-batch-words if running on CPU.", 0);
+
   cp.addOption<std::string>("--server-root","Server Options",
                             "server's document root directory",
                             "${HOME}/marian/lib/ui/");
