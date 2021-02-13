@@ -1,6 +1,3 @@
-// #include "3rd_party/rapidjson/include/rapidjson/document.h"
-// #include "3rd_party/rapidjson/include/rapidjson/stringbuffer.h"
-// #include "3rd_party/rapidjson/include/rapidjson/writer.h"
 #include "common/timer.h"
 #include "common/utils.h"
 #include "marian.h"
@@ -209,6 +206,9 @@ int main(int argc, char* argv[])
   CROW_ROUTE(app, "/api/bergamot/demo.html")
     .methods("GET"_method)(bmot_handler);
 
+  // use the elg api by default
+  CROW_ROUTE(app, "/")
+    .methods("GET"_method)(elg_handler);
 
   CROW_ROUTE(app, "/api/elg/v1")
     .methods("POST"_method)(elg_handler);
