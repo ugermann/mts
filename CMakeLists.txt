@@ -23,6 +23,7 @@ option(COMPILE_SERVER "Compile marian-server" OFF)
 option(COMPILE_TESTS "Compile tests" OFF)
 option(SHOW_INCLUDE_DIRECTORIES "Shown include directories when running cmake (for debugging)" OFF)
 option(UPDATE_SUBMODULES "Check for changes in submodules" ON)
+option(USE_ABSEIL "Use abseil library" ON)
 option(USE_CCACHE "Use ccache compiler cache (https://ccache.dev)" ON)
 option(USE_CUDNN "Use CUDNN library" OFF)
 option(USE_DOXYGEN "Build documentation with Doxygen" OFF)
@@ -41,6 +42,8 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 include(UpdateSubmodules)
+
+# add_compile_options(-DUSE_ABSEIL=1)
 
 # Project versioning
 find_package(Git QUIET)

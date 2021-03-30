@@ -16,6 +16,7 @@ if (COMPILE_REST_SERVER OR COMPILE_AMQP_WORKER OR COMPILE_WEBSOCKET_SERVER)
     quality_estimation/qe.cpp
     )
   target_compile_options(marian-service PUBLIC ${ALL_WARNINGS})
+  add_dependencies(marian-service ssplit)
 endif(COMPILE_REST_SERVER OR COMPILE_AMQP_WORKER OR COMPILE_WEBSOCKET_SERVER)
 
 # FOR DEBUGGING THE CMAKE SETUP

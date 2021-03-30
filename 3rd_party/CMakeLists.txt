@@ -3,6 +3,8 @@ add_subdirectory(ssplit-cpp)
 
 include_directories(crow/include)
 include_directories(ssplit-cpp/src)
+include_directories(${CMAKE_BINARY_DIR}/include/ssplit)
+include_directories(${CMAKE_BINARY_DIR}/include)
 include_directories(rapidjson/include)
 
 ################################################################################
