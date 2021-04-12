@@ -41,7 +41,7 @@ if (COMPILE_REST_SERVER)
   # TODO: use of static vs shared pcre and pcrecpp libraries should
   # depend on USE_STATIC_LIBS, but I couldn't get that to work.
   target_link_libraries(rest-server marian-service marian ${MARIAN_CUDA_LIB}
-    ${EXT_LIBS} ssplit pcrecpp.a pcre.a)
+    ${EXT_LIBS} ssplit)
 endif(COMPILE_REST_SERVER)
 
 if (COMPILE_AMQP_WORKER)
